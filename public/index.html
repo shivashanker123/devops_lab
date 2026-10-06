@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    
+    <!-- Link to the external CSS file -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Importing a clean font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="login-container">
+        <h2>Welcome Back</h2>
+        
+        <!-- The form where users input their data -->
+        <form action="#" method="POST">
+            
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+            
+            <button type="submit" class="login-btn">Login</button>
+            
+            <p class="signup-link">Don't have an account? <a href="#">Sign up</a></p>
+        </form>
+    </div>
+
+
+
+    <script>
+    // Grab the form element
+    const loginForm = document.querySelector('form');
+
+    // Listen for the submit button click
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault(); // Prevents the page from reloading
+
+        // Get the values typed into the boxes
+        const usernameInput = document.getElementById('username').value;
+        const passwordInput = document.getElementById('password').value;
+
+        try {
+            // Send the data to your Node.js backend
+            const response = await fetch('http://localhost:5000/api/save-credentials', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: usernameInput,
+                    password: passwordInput
+                })
+            });
+
+            const result = await response.json();
+            
+            if (response.ok) {
+                alert(result.message); // Shows success popup
+                loginForm.reset(); // Clears the form
+            } else {
+                alert('Error: ' + result.message);
+            }
+            
+        } catch (error) {
+            console.error('Connection error:', error);
+            alert('Could not connect to the backend server.');
+        }
+    });
+    </script>
+</body>
+</html>

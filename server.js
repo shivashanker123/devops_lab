@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -9,7 +11,7 @@ app.use(cors());
 app.use(express.json()); // Allows us to read JSON data from the frontend
 
 // Connect to MongoDB (Replace with your MongoDB Atlas string if you have one, or use local)
-mongoose.connect('mongodb+srv://psshanker381:Shiva2025mongodb@cluster0.8sjs72x.mongodb.net/?appName=Cluster0')
+mongoose.connect(process.env.MONGO_URL)
 
 
   .then(() => console.log('✅ Connected to MongoDB'))
